@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 
+import me.prettyprint.cassandra.model.MultigetCountQuery;
 import me.prettyprint.cassandra.serializers.DateSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Cluster;
@@ -71,6 +72,8 @@ public class Query {
 			for (String key : keys) {
 				CountQuery<String, Date> query = createCountQuery(keyspace, cf,
 						key);
+				query.execute();
+				query = createCountQuery(keyspace, "campaign1", key);
 				query.execute();
 			}
 		}
