@@ -20,20 +20,22 @@ public class Query {
 		Cluster myCluster = HFactory.getOrCreateCluster("Test Cluster",
 				"localhost:9160");
 		Keyspace createKeyspace = HFactory.createKeyspace("deneme", myCluster);
-		CountQuery<String, Date> countQuery = createCountQuery(createKeyspace,
-				"campaign1");
-		QueryResult<Integer> queryResult = countQuery.execute();
-		System.out.println(String.format(
-				"execution time in micro: %1$d with result: %2$d",
-				queryResult.getExecutionTimeMicro(), queryResult.get()));
+		long start = System.currentTimeMillis();
+		for (int i = 1; i <= 2000; i++) {
+			CountQuery<String, Date> countQuery = createCountQuery(
+					createKeyspace, "global", String.format("%1$026d", i));
+			QueryResult<Integer> queryResult = countQuery.execute();
+		}
+		System.out.println(String.format("completed in %1$d",
+				System.currentTimeMillis() - start));
 	}
 
 	protected static CountQuery<String, Date> createCountQuery(
-			Keyspace createKeyspace, String cf) {
+			Keyspace createKeyspace, String cf, String key) {
 		CountQuery<String, Date> countQuery = HFactory.createCountQuery(
 				createKeyspace, StringSerializer.get(), DateSerializer.get());
 		countQuery.setColumnFamily(cf);
-		countQuery.setKey(String.format("%1$026d", 11));
+		countQuery.setKey(key);
 		Calendar instance = Calendar.getInstance();
 		instance.set(2012, 1, 1, 0, 0, 0);
 		Date time = instance.getTime();
