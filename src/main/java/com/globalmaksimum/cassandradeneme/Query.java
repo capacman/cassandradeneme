@@ -20,7 +20,8 @@ public class Query {
 		Cluster myCluster = HFactory.getOrCreateCluster("Test Cluster",
 				"localhost:9160");
 		Keyspace createKeyspace = HFactory.createKeyspace("deneme", myCluster);
-		CountQuery<String, Date> countQuery = createCountQuery(createKeyspace);
+		CountQuery<String, Date> countQuery = createCountQuery(createKeyspace,
+				"campaign1");
 		QueryResult<Integer> queryResult = countQuery.execute();
 		System.out.println(String.format(
 				"execution time in micro: %1$d with result: %2$d",
@@ -28,10 +29,10 @@ public class Query {
 	}
 
 	protected static CountQuery<String, Date> createCountQuery(
-			Keyspace createKeyspace) {
+			Keyspace createKeyspace, String cf) {
 		CountQuery<String, Date> countQuery = HFactory.createCountQuery(
 				createKeyspace, StringSerializer.get(), DateSerializer.get());
-		countQuery.setColumnFamily("global");
+		countQuery.setColumnFamily(cf);
 		countQuery.setKey(String.format("%1$026d", 11));
 		Calendar instance = Calendar.getInstance();
 		instance.set(2012, 1, 1, 0, 0, 0);
