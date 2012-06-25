@@ -31,7 +31,7 @@ public class Query {
 
 		long start = System.currentTimeMillis();
 		BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(30);
-		ExecutorService executorService = new ThreadPoolExecutor(8, 8, 1,
+		ExecutorService executorService = new ThreadPoolExecutor(10, 10, 1,
 				TimeUnit.HOURS, workQueue, new CallerRunsPolicy());
 
 		for (int i = 1; i <= 100000; i = i + 10) {
