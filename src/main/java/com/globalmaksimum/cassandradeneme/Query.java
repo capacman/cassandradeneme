@@ -33,7 +33,7 @@ public class Query {
 		ExecutorService executorService = new ThreadPoolExecutor(8, 8, 1,
 				TimeUnit.HOURS, workQueue, new CallerRunsPolicy());
 
-		for (int i = 1; i <= 200000; i = i + 10) {
+		for (int i = 1; i <= 100000; i = i + 10) {
 			List<String> keys = new ArrayList<String>(10);
 			for (int j = i; j < i + 10; j++) {
 				keys.add(String.format("%1$026d", j));
