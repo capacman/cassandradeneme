@@ -29,18 +29,18 @@ public class Query {
 		Keyspace createKeyspace = HFactory.createKeyspace("deneme", myCluster);
 
 		long start = System.currentTimeMillis();
-		BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(20);
-		ExecutorService executorService = new ThreadPoolExecutor(4, 4, 1,
+		BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(30);
+		ExecutorService executorService = new ThreadPoolExecutor(8, 8, 1,
 				TimeUnit.HOURS, workQueue, new CallerRunsPolicy());
 
-		for (int i = 1; i <= 20000; i = i + 10) {
+		for (int i = 1; i <= 200000; i = i + 10) {
 			List<String> keys = new ArrayList<String>(10);
 			for (int j = i; j < i + 10; j++) {
 				keys.add(String.format("%1$026d", j));
 			}
 			executorService.execute(new QueryRunnable("global", createKeyspace,
 					keys));
-			if (i % 1000 == 0)
+			if ((i - 1) % 1000 == 0)
 				System.out.println(String.format("current index %1$d", i));
 		}
 		executorService.shutdown();
