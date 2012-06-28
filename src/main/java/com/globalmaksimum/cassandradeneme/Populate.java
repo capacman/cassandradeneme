@@ -64,7 +64,7 @@ public class Populate {
 		HFactory.shutdownCluster(myCluster);
 	}
 
-	protected static Keyspace getKeySpace(Cluster myCluster, boolean drop) {
+	public static Keyspace getKeySpace(Cluster myCluster, boolean drop) {
 		KeyspaceDefinition keyspaceDefinition = myCluster
 				.describeKeyspace("deneme");
 		if (keyspaceDefinition != null && drop) {
@@ -75,7 +75,7 @@ public class Populate {
 		return createKeyspace;
 	}
 
-	protected static void addKeySpace(Cluster myCluster) {
+	public static void addKeySpace(Cluster myCluster) {
 		List<ColumnFamilyDefinition> cfDefs = new ArrayList<ColumnFamilyDefinition>();
 		cfDefs.add(HFactory.createColumnFamilyDefinition("deneme", "global",
 				ComparatorType.getByClassName("DateType")));
@@ -123,7 +123,7 @@ public class Populate {
 
 	}
 
-	private static String getHitCampaignName() {
+	public static String getHitCampaignName() {
 		if (RANDOM_CAMPAIGN.nextInt(100) < 30) {
 			return "campaign" + (1 + RANDOM_CAMPAIGN_NAME.nextInt(3));
 		}
