@@ -59,10 +59,11 @@ class QuerySparse {
 
 		@Override
 		public void run() {
-			MultigetCountQuery<String, Date> query = createCountQuery(keyspace, cf,
-					keys.toArray());
+			String[] arr=new String[10]
+			arr=keys.toArray(arr)
+			MultigetCountQuery<String, Date> query = createCountQuery(keyspace, cf,arr);
 			query.execute();
-			query = createCountQuery(keyspace, "campaign1", keys.toArray());
+			query = createCountQuery(keyspace, "campaign1", arr);
 			query.execute();
 		}
 
