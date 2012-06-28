@@ -56,7 +56,7 @@ public class Query {
 		HFactory.shutdownCluster(myCluster);
 	}
 
-	private static class QueryRunnable implements Runnable {
+	public static class QueryRunnable implements Runnable {
 		private String cf;
 		private Keyspace keyspace;
 		private List<String> keys;
