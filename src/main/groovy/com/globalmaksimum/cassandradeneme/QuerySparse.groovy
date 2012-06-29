@@ -27,14 +27,13 @@ class QuerySparse {
 		long start = System.currentTimeMillis();
 		BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(30)
 		ExecutorService executorService = new ThreadPoolExecutor(10, 10, 1,TimeUnit.HOURS, workQueue, new CallerRunsPolicy())
-		for (int i = 0; i < 600000; i = i + 10) {
-			List<String> keys = new ArrayList<String>(10)
-			for (int j = i; j < i + 10; j++) {
-				keys.add(String.format('%1$026d', RANDOM_CUSTOMER.nextInt(600000)))
+		0.step(600000,10) {
+			def keys=(0..10).collect {
+				return String.format('%1$026d', RANDOM_CUSTOMER.nextInt(600000))
 			}
 			executorService.execute(new QueryRunnable("global", keySpace,keys))
-			if ((i - 1) % 1000 == 0)
-				System.out.println(String.format('current index %1$d', i))
+			if (it % 1000 == 0)  
+				println String.format('current index %1$d', it)
 		}
 		executorService.shutdown()
 		try {
@@ -43,7 +42,7 @@ class QuerySparse {
 			// TODO Auto-generated catch block
 			e.printStackTrace()
 		}
-		System.out.println(String.format('completed in %1$d',System.currentTimeMillis() - start))
+		println(String.format('completed in %1$d',System.currentTimeMillis() - start))
 		HFactory.shutdownCluster(myCluster)
 	}
 	public static class QueryRunnable implements Runnable {
